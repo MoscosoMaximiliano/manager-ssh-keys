@@ -5,16 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self'"/>
+    <link rel="stylesheet" href="../style.css">
+    <script src="../js/renderer.js"></script>
+    
 
-    <script src="./js/load_ssh.js"></script>
     <title>SSH Manager</title>
 </head>
 <body>
     <main>
         <div>
-            <button id="load_ssh">Load SSH</button>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email_ssh">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username_ssh">
+            <button id="create_ssh_button">Create SSH Key</button>
         </div>
-
+        <div>
+            <button id="load_ssh">Load SSH Existing Data</button>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <th>Host</th>
+                    <th>Host Name</th>
+                    <th>User</th>
+                    <th>Identity File</th>
+                </tr>
+                <tbody id="table-body-content"></tbody>
+            </table>
+        </div>
+        
     </main>
     
 </body>

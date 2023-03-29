@@ -9,6 +9,12 @@ const createMainWindow = () => {
     title: "SSH Manager",
     width: isDev ? 1200 : 800,
     height: 600,
+    autoHideMenuBar: true,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
+    }
   });
 
   // Open Devtools if in dev env

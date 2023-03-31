@@ -56,23 +56,27 @@ contextBridge.exposeInMainWorld("file", {
   },
   getFileData: () => {
     let dataArray = fs.readFileSync(sshPath, 'utf-8').split(/\r?\n/)
-
     let formatData = []
-    let object = {}
 
-    dataArray.forEach((line, index, array) => {
-        if(line === "") {
+    if (dataArray.length) {
+      let object = {}
+
+      dataArray.forEach((line, index, array) => {
+          if(line === "") {
+              formatData.push(object)
+              object = {}
+          } else {
+              line = line.replace("\t", '').split(" ")
+              object[line[0]] = line[1]
+          }
+
+          if(index === array.length - 1) {
             formatData.push(object)
-            object = {}
-        } else {
-            line = line.replace("\t", '').split(" ")
-            object[line[0]] = line[1]
-        }
+          }
+      })
+    }
 
-        if(index === array.length - 1) {
-          formatData.push(object)
-        }
-    });
+    
 
     // TODO: Create a Json File with the SSH Data for manage more easy the delete option
 
@@ -86,6 +90,9 @@ contextBridge.exposeInMainWorld("file", {
   },
   updateSshFile: (username) => {
     fs.appendFileSync(sshPath, `\n\nHost github.com-${username}\n\tHostName github.com\n\tUser git\n\tIdentityFile ${process.env.HOME}/.ssh/${username}`)
+  },
+  deleteSshKey: (id) => {
+    console.log(id)
   }
 });
 

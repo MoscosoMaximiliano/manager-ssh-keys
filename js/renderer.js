@@ -1,4 +1,3 @@
-
 window.onload = () => {
   loadSshButton = document.getElementById("load_ssh");
   createSshButton = document.getElementById("create_ssh_button")
@@ -12,9 +11,8 @@ const loadFilePath = () => {
   checkFileExist();
 
   let data = file.getFileData();
-  let table = "";
 
-  createTableContent(data);
+  createTableContent(data)
 };
 
 const checkFileExist = () => !file.fileExists() ? file.createFile() : true
@@ -27,26 +25,29 @@ const deleteSshKey = () => {
 const createTableContent = (data) => {
     let table = ""
   data.forEach((object, index) => {
-    console.log(object);
-    table += "<tr>";
-    table += `<td>${object.Host}</td>`;
-    table += `<td>${object.HostName}</td>`;
-    table += `<td>${object.User}</td>`;
-    table += `<td>${object.IdentityFile}</td>`;
-
-    //TODO: Create the delete button on table
-
-    // const deleteButton = document.createElement("button");
-    // deleteButton.innerText = "Delete";
-    // deleteButton.value = index;
-    // deleteButton.id = "delete_ssh_key";
-    // deleteButton.addEventListener("click", deleteSshKey);
-
-    // table += `<td>${deleteButton}</td>`;
-    table += "</tr>";
+    if(!object === {}) {
+      table += "<tr>";
+      table += `<td>${object.Host}</td>`;
+      table += `<td>${object.HostName}</td>`;
+      table += `<td>${object.User}</td>`;
+      table += `<td>${object.IdentityFile}</td>`;
+      table += `<td><button value=${index} id="delete_ssh_key" onClick=${file.deleteSshKey(index)}>Delete</button></td>`
+  
+      //TODO: Create the delete button on table
+  
+      // const deleteButton = document.createElement("button");
+      // deleteButton.innerText = "Delete";
+      // deleteButton.value = index;
+      // deleteButton.id = "delete_ssh_key";
+      // deleteButton.addEventListener("click", deleteSshKey);
+  
+      // table += `<td>${deleteButton}</td>`;
+      table += "</tr>";
+    }
   });
 
-  document.getElementById("table-body-content").innerHTML = table;
+  if(table === "") toastify.failed("No data to show")
+  else document.getElementById("table-body-content").innerHTML = table;
 };
 
 

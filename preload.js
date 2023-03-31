@@ -50,6 +50,8 @@ contextBridge.exposeInMainWorld("ssh", {
         }
     });
 
+    // TODO: Create a Json File with the SSH Data for manage more easy the delete option
+
     // const jsonContent = JSON.stringify(formatData)
 
     // console.log(jsonContent)
@@ -88,5 +90,5 @@ contextBridge.exposeInMainWorld("toastify", {
 });
 
 contextBridge.exposeInMainWorld('command', {
-    
+    // TODO: Create multiples terminal commands 
 })

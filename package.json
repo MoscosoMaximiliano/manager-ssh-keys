@@ -3,10 +3,20 @@
   "version": "1.0.0",
   "description": "Application created for manage the SSH Keys for multiples accounts",
   "main": "main.js",
+  "build": {
+    "appId": "com.ssh-manager.app",
+    "productName": "SSH Manager",
+    "directories": {
+      "output": "dist"
+    }
+  },
   "scripts": {
     "start": "electron .",
     "start:electromon": "electromon .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "package-mac": "electron-builder --mac",
+    "package-win": "electron-builder --win",
+    "package-linux": "electron-builder --linux",
+    "dist": "electron-builder"
   },
   "repository": {
     "type": "git",
@@ -15,8 +25,11 @@
   "author": "Moscoso Maximiliano",
   "license": "MIT",
   "dependencies": {
-    "electromon": "^1.0.10",
-    "electron": "^23.2.0",
     "toastify-js": "^1.12.0"
+  },
+  "devDependencies": {
+    "electromon": "^1.0.10",
+    "electron": "^23.2.1",
+    "electron-builder": "^23.6.0"
   }
 }

@@ -4,7 +4,8 @@ const { contextBridge, shell } = require("electron");
 const fs = require("fs");
 const toastify = require("toastify-js");
 
-const pty = require('node-pty')
+const { spawn } = require("child_process");
+const { format } = require("path");
 
 const sshPath = process.env.HOME + "/.ssh/config";
 
@@ -21,7 +22,7 @@ contextBridge.exposeInMainWorld("os", {
   }
 })
 
-contextBridge.exposeInMainWorld("ssh", {
+contextBridge.exposeInMainWorld("file", {
   fileExists: () => fs.existsSync(sshPath),
   createFile: () => {
     try {
@@ -55,16 +56,21 @@ contextBridge.exposeInMainWorld("ssh", {
   },
   getFileData: () => {
     let dataArray = fs.readFileSync(sshPath, 'utf-8').split(/\r?\n/)
+
     let formatData = []
     let object = {}
 
-    dataArray.forEach(line => {
+    dataArray.forEach((line, index, array) => {
         if(line === "") {
             formatData.push(object)
             object = {}
         } else {
             line = line.replace("\t", '').split(" ")
             object[line[0]] = line[1]
+        }
+
+        if(index === array.length - 1) {
+          formatData.push(object)
         }
     });
 
@@ -78,6 +84,9 @@ contextBridge.exposeInMainWorld("ssh", {
     
     return formatData
   },
+  updateSshFile: (username) => {
+    fs.appendFileSync(sshPath, `\n\nHost github.com-${username}\n\tHostName github.com\n\tUser git\n\tIdentityFile ${process.env.HOME}/.ssh/${username}`)
+  }
 });
 
 contextBridge.exposeInMainWorld("toastify", {
@@ -109,41 +118,24 @@ contextBridge.exposeInMainWorld("toastify", {
 
 contextBridge.exposeInMainWorld('command', {
   console: (command) => {
-    const shell = os.platform() === 'win32' ? 'cmd.exe' : 'bash'
-    const terminal = pty.spawn(shell, [], {
-      name: 'xterm-color',
-      cols: 80,
-      rows: 30,
-      cwd: process.cwd(),
-      env: process.env
+    const cmd = spawn(process.platform === "win32" ? "powershell.exe": "bash")
+
+    cmd.stdin.write(`${command}\n`)
+
+    cmd.stdout.on("data", (data) => {
+      console.log(`stdout: ${data}`)
     })
 
-    terminal.write(command)
+    cmd.stdin.write("\r\n")
 
-    terminal.on('data', (data) => {
-      console.log(data)
-
-      terminal.write('\r\n\r\n')
+    cmd.stdout.on("data", (data) => {
+      console.log(`stdout: ${data}`)
     })
 
-    terminal.on('error', (err) => {
-      console.log(err)
-    })
+    cmd.stdin.write("\r\n")
+
+    setInterval(() => {
+      cmd.stdin.end()
+    }, 1000);
   }
-  // TODO: Create multiples terminal commands 
-  // console: (command) => {
-  //   console.log(command)
-  //   exec(command, (error, stdout, stderr) => {
-  //     if (error) {
-  //       console.log(`error: ${error.message}`)
-  //       return
-  //     } else if(stderr) {
-  //       console.log(`stderr: ${stderr}`)
-  //       return
-  //     }
-
-  //     console.log(`stdout: ${stdout}`)
-  //     console.error(`stderr: ${stderr}`)
-  //   })
-  // }
 })

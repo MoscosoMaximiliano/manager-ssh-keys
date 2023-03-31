@@ -11,21 +11,13 @@ window.onload = () => {
 const loadFilePath = () => {
   checkFileExist();
 
-  let data = ssh.getFileData();
+  let data = file.getFileData();
   let table = "";
-
-  console.log("ASD")
 
   createTableContent(data);
 };
 
-const checkFileExist = () => {
-  if (ssh.fileExists()) {
-    toastify.success("Exists");
-  } else {
-    ssh.createFile();
-  }
-};
+const checkFileExist = () => !file.fileExists() ? file.createFile() : true
 
 const deleteSshKey = () => {
   let indexSSH = this.options[this.selectedIndex].value;
@@ -72,7 +64,8 @@ const createSSH = () => {
 
     console.log(email, username)
   }
-    
+   
+  file.updateSshFile(username)
 
   // TODO: Create the multi task terminal command
 }

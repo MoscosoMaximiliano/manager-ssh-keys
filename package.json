@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "start:electromon": "electromon .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -14,6 +15,7 @@
   "author": "Moscoso Maximiliano",
   "license": "MIT",
   "dependencies": {
+    "electromon": "^1.0.10",
     "electron": "^23.2.0",
     "toastify-js": "^1.12.0"
   }

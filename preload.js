@@ -1,20 +1,38 @@
 const os = require("os");
 const path = require("path");
-const { contextBridge } = require("electron");
+const { contextBridge, shell } = require("electron");
 const fs = require("fs");
 const toastify = require("toastify-js");
 
+const pty = require('node-pty')
+
 const sshPath = process.env.HOME + "/.ssh/config";
+
+
+contextBridge.exposeInMainWorld("os", {
+  path: () => { 
+    let path
+    let splited = process.env.HOME.split("\\")
+    splited[splited.length-1] = '"' + splited[splited.length-1] + '"'
+    
+    path = splited.join('/')
+
+    return path
+  }
+})
 
 contextBridge.exposeInMainWorld("ssh", {
   fileExists: () => fs.existsSync(sshPath),
   createFile: () => {
     try {
+      // check if exist the directory
+      !fs.existsSync(process.env.HOME + "/.ssh") && fs.mkdirSync(process.env.HOME + "/.ssh")
+
       fs.writeFileSync(sshPath, "");
       toastify({
         text: "Created a new Config File",
         gravity: "top",
-        duration: 1000,
+        duration: 5000,
         close: false,
         style: {
           background: "green",
@@ -25,7 +43,7 @@ contextBridge.exposeInMainWorld("ssh", {
     } catch (e) {
       toastify({
         text: e,
-        duration: 1000,
+        duration: 5000,
         close: false,
         style: {
           background: "red",
@@ -90,5 +108,42 @@ contextBridge.exposeInMainWorld("toastify", {
 });
 
 contextBridge.exposeInMainWorld('command', {
-    // TODO: Create multiples terminal commands 
+  console: (command) => {
+    const shell = os.platform() === 'win32' ? 'cmd.exe' : 'bash'
+    const terminal = pty.spawn(shell, [], {
+      name: 'xterm-color',
+      cols: 80,
+      rows: 30,
+      cwd: process.cwd(),
+      env: process.env
+    })
+
+    terminal.write(command)
+
+    terminal.on('data', (data) => {
+      console.log(data)
+
+      terminal.write('\r\n\r\n')
+    })
+
+    terminal.on('error', (err) => {
+      console.log(err)
+    })
+  }
+  // TODO: Create multiples terminal commands 
+  // console: (command) => {
+  //   console.log(command)
+  //   exec(command, (error, stdout, stderr) => {
+  //     if (error) {
+  //       console.log(`error: ${error.message}`)
+  //       return
+  //     } else if(stderr) {
+  //       console.log(`stderr: ${stderr}`)
+  //       return
+  //     }
+
+  //     console.log(`stdout: ${stdout}`)
+  //     console.error(`stderr: ${stderr}`)
+  //   })
+  // }
 })

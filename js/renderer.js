@@ -1,9 +1,11 @@
+
 window.onload = () => {
   loadSshButton = document.getElementById("load_ssh");
-
-  if (loadSshButton) loadSshButton.addEventListener("click", loadFilePath);
-
-  console.log(loadSshButton)
+  createSshButton = document.getElementById("create_ssh_button")
+  
+  if (loadSshButton) loadSshButton.addEventListener("click", loadFilePath)  
+  if (createSshButton) createSshButton.addEventListener("click", createSSH)
+ 
 };
 
 const loadFilePath = () => {
@@ -60,7 +62,17 @@ const createSSH = () => {
   let email = document.getElementById('email_ssh').value
   let username = document.getElementById('username_ssh').value
 
-  // TODO: Create the multi task terminal command
+  console.log(os.path())
 
-  console.log(email, username)
+  if(!email || !username) {
+    toastify.failed("Please complete the fields")
+    return
+  } else {
+    command.console(`cd ${os.path()}/.ssh/ && ssh-keygen -t rsa -C "${email}" -f "${username}"  && ssh-add -K ${os.path()}/.ssh/${username}`)
+
+    console.log(email, username)
+  }
+    
+
+  // TODO: Create the multi task terminal command
 }

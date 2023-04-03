@@ -8,7 +8,7 @@ const createMainWindow = () => {
   const mainWindow = new BrowserWindow({
     title: "SSH Manager",
     width: isDev ? 1200 : 800,
-    height: 600,
+    height: 800,
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,

@@ -11,6 +11,7 @@ A project created with the objective to create new ssk-key more easy and create 
 - toastify-js
 - electromon
 - electron-builder
+- eslint
 
 ## How to navigate on files
 
@@ -28,14 +29,15 @@ At the moment i'm not going to explain these because i'm learning about Electron
 
 First at all we need to run the next command for get the neccesary files to package the app
 
-`npm run package-<distro>` 
+`npm run package-<distro>`
 
 The possibles distros are:
+
 - mac
 - win
 - linux
 
-After this, we need to run the next command for create the executable 
+After this, we need to run the next command for create the executable
 
 `npm run dist`
 
@@ -65,7 +67,6 @@ After this, we need to run the next command for create the executable
 `ssh-keygen -t rsa -C "your-email-address" -f "github-username"`
 
 `ssh-add -K ~/.ssh/<name-ssh-file>`
-
 
 ## possibles next functionalities
 

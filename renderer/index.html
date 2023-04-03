@@ -1,30 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self'"/>
-    <link rel="stylesheet" href="../style.css">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
+
     <script src="../js/renderer.js"></script>
-    
+
+    <link rel="stylesheet" href="../bulma.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../toastify.css">
+
 
     <title>SSH Manager</title>
 </head>
+
 <body>
     <main>
-        <div>
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email_ssh">
-            <label for="username">Username</label>
-            <input type="email" name="email" id="username_ssh">
-            <button id="create_ssh_button">Create SSH Key</button>
+        <div class="container is-max-desktop box">
+            <div class="field">
+                <label class="label" for="email">Email</label>
+                <input class="input" type="email" placeholder="e.g. alex@example.com" name="email" id="email_ssh">
+            </div>
+            <div class="field">
+                <label class="label" for="username">Username</label>
+                <input class="input" type="text" name="username" id="username_ssh">
+            </div>
+
+            <button class="button is-primary is-rounded is-responsive is-small" id="create_ssh_button">Create SSH
+                Key</button>
         </div>
+
         <div>
-            <button id="load_ssh">Load SSH Existing Data</button>
+            <button class="button is-info is-rounded is-responsive is-small" id="load_ssh">Load SSH Existing
+                Data</button>
         </div>
+
         <div>
-            <table>
+            <table class="table is-bordered is-hoverable is-rounded is-centered">
                 <tr>
                     <th>Host</th>
                     <th>Host Name</th>
@@ -36,11 +51,17 @@
             </table>
         </div>
 
-        <div>
-            <h3>At the moment this only works with github, on next update we going to reach anothers services!</h3>
+        <div class="container">
+            <article class="message is-info m-5">
+                <div class="message-header">Important</div>
+                <div class="message-body">At the moment this only works with github, on next update we going to reach
+                    anothers services!</div>
+            </article>
         </div>
-        
+
+
     </main>
-    
+
 </body>
+
 </html>

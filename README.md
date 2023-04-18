@@ -5,13 +5,13 @@ A project created with the objective to create new ssk-key more easy and create 
 ## Framework
 
 - Electron
+- Bulma CSS
 
 ## Dependencies
 
 - toastify-js
 - electromon
 - electron-builder
-- eslint
 
 ## How to navigate on files
 

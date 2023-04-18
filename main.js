@@ -13,7 +13,7 @@ const createMainWindow = () => {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'src/preload.js')
     }
   });
 
@@ -22,7 +22,7 @@ const createMainWindow = () => {
     mainWindow.webContents.openDevTools()
   }
 
-  mainWindow.loadFile(path.join(__dirname, "./renderer/index.html"));
+  mainWindow.loadFile(path.join(__dirname, "src/renderer/index.html"));
 };
 
 app.on("ready", () => {

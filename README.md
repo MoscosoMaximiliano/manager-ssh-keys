@@ -51,13 +51,13 @@ After this, we need to run the next command for create the executable
 
 ## possibles steps on dev
 
-- Check if exist file
-  - In case this not exist create a new one
-- Get all SSH data
-- Create SSH keys for all accounts
-- Add SSH keys to SSH Agent
-- Add SSH public key to the Github
-- Create a Config File and Make Host Entries
+- Check if exist file ✅
+  - In case this not exist create a new one ✅
+- Get all SSH data ✅
+- Create SSH keys for all accounts ✅
+- Add SSH keys to SSH Agent ✅
+- Add SSH public key to the Github 
+- Create a Config File and Make Host Entries ✅
 - Cloning GitHub repositories using different accounts
 
 ## commands used for creation of the SSH Keys

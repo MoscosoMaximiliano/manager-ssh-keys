@@ -56,7 +56,7 @@ const createSSH = () => {
     toastify.failed("Please complete the fields")
     return
   } else {
-    command.console(`cd ${os.path()}/.ssh/ && ssh-keygen -t rsa -C "${email}" -f "${username}"  && ssh-add -K ${os.path()}/.ssh/${username}`)
+    command.addSSH(`cd ${os.path()}/.ssh/ && ssh-keygen -t rsa -C "${email}" -f "${username}"  && ssh-add -K ${os.path()}/.ssh/${username}`)
   }
 
   file.updateSshFile(username)

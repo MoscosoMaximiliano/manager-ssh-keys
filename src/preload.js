@@ -1,8 +1,5 @@
-const os = require("os");
-const path = require("path");
-const { contextBridge, shell } = require("electron");
+const { contextBridge } = require("electron");
 const fs = require("fs");
-const { Transform } = require('stream')
 
 const toastify = require("toastify-js");
 const { spawn } = require("child_process");
@@ -25,39 +22,44 @@ contextBridge.exposeInMainWorld("file", {
   fileExists: () => isFileExist(),
   createFile: () => createFile(),
   getFileData: () => {
-    let dataArray = fs.readFileSync(sshPath, 'utf-8').split(/\r?\n/)
+    try {
+      let dataArray = fs.readFileSync(sshPath, 'utf-8').split(/\r?\n/)
 
-    let splitedData = []
+      let splitedData = []
 
-    if (dataArray.length !== 1) {
-      let object = {}
+      if (dataArray.length !== 1) {
+        let object = {}
 
-      dataArray.forEach((line, index, array) => {
-          if(line === "") {
+        dataArray.forEach((line, index, array) => {
+            if(line === "") {
+                splitedData.push(object)
+                object = {}
+            } else {
+                line = line.replace("\t", '').split(" ")
+                object[line[0]] = line[1]
+            }
+
+            if(index === array.length - 1) {
               splitedData.push(object)
-              object = {}
-          } else {
-              line = line.replace("\t", '').split(" ")
-              object[line[0]] = line[1]
-          }
-
-          if(index === array.length - 1) {
-            splitedData.push(object)
-          }
-      })
-    }
-  
-  	let formattedData = splitedData.filter(value => Object.keys(value).length !== 0)
-
-    // TODO: Create a Json File with the SSH Data for manage more easy the delete option
-
-    // const jsonContent = JSON.stringify(formatData)
-
-    // console.log(jsonContent)
-
-    // fs.writeFileSync('./ssh_json.json', jsonContent, 'utf-8')
+            }
+        })
+      }
     
-    return formattedData
+      let formattedData = splitedData.filter(value => Object.keys(value).length !== 0)
+
+      // TODO: Create a Json File with the SSH Data for manage more easy the delete option
+
+      // const jsonContent = JSON.stringify(formatData)
+
+      // console.log(jsonContent)
+
+      // fs.writeFileSync('./ssh_json.json', jsonContent, 'utf-8')
+      
+      return formattedData
+    } catch (error) {
+      toastifyFailed(`Error getting the file data: ${error}`)
+      return []
+    }
   },
   updateSshFile: (username) => {
     try {
@@ -88,11 +90,11 @@ const createFile = () => {
 
       toastifySuccess("Created a new Config File")
     } catch (e) {
-      toastifyFailed(e)
+      toastifyFailed(`Error creating a new file: ${e}`)
     }
 }
 contextBridge.exposeInMainWorld('command', {
-  console: (command) => {
+  addSSH: (command) => {
     const cmd = spawn(process.platform === "win32" ? "powershell.exe": "bash")
 
     cmd.stdin.write(`${command}\n`)

@@ -2,6 +2,10 @@
 
 A project created with the objective to create new ssk-key more easy and create multiples ssh key profiles for people who has multiples github (at the moment) profiles.
 
+## Mock up
+
+At the moment we don't concreate nothing solid about the stylish, we are pointing to the utility
+
 ## Framework
 
 - Electron
@@ -49,6 +53,12 @@ After this, we need to run the next command for create the executable
 
 [Video of MiduDEV for create a Electron App](https://www.youtube.com/watch?v=ir9yaSgbOdY)
 
+## Information
+
+[Get repository from Github](https://www.middlewareinventory.com/blog/github-list-all-repositories-using-rest-api/#Script_to_List_All_repositories_in_Github_using_REST_API)
+[Release Version on push](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
+[Dependabot](https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot)
+
 ## possibles steps on dev
 
 - Check if exist file ✅
@@ -75,3 +85,8 @@ After this, we need to run the next command for create the executable
 - Autocomplete the path link when try to clone the repo
   - Maybe a system who need to select a profile and with that can complete the SSH path when clone the repo
 - Delete a SSH Key
+
+# DOING
+
+- Making the workflow for Github Actions for deploy a release on each platform
+- Creating a dependabot

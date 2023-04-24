@@ -2,7 +2,7 @@ name: Build and Release multi OS
 
 on: 
   pull_request_review:
-    types: [approved]
+    types: [closed]
 
 jobs:
   build:

@@ -10,12 +10,14 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    env:
+      diminutive: ${{ matrix.diminutive }}
     strategy:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
         node-version: [14]
-        diminutive: [mac, win, linux]
-      diminutive: ${{ matrix.diminutive[ indexof(matrix.os, item) ] }}
+        dim: [mac, win, linux]
+        diminutive: ${{ matrix.dim[ indexof(matrix.os, item) ] }}
     
     steps:
       - name: Checkout Code

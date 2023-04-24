@@ -13,8 +13,14 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
-        os-diminutive: [mac, win, linux]
         node-version: [18]
+        includes:
+          - os: macos-latest
+            diminutive: mac
+          - os: windows-latest
+            diminutive: win
+          - os: ubuntu-latest
+            diminutive: linux
     
     steps:
       - name: Checkout Code
@@ -28,12 +34,12 @@ jobs:
       - name: Install Depedencies and run build
         run: |
           npm ci
-          npm run package-${{ matrix.os-diminutive }}
+          npm run package-${{ matrix.diminutive }}
 
       - name: Archive Build Artifacts
         uses: actions/upload-artifacts@v2
         with:
-          name: build-${{ matrix.os-diminutive }}
+          name: build-${{ matrix.os }}
           path: dist/*
 
   release:

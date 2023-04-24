@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
 
-    <script src="../js/renderer.js"></script>
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self; script-src 'self'"/>
 
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/bulma.css">
@@ -33,22 +34,57 @@
                 Key</button>
         </div>
 
-        <div>
-            <button class="button is-info is-rounded is-responsive is-small" id="load_ssh">Load SSH Existing
-                Data</button>
-        </div>
-
-        <div>
-            <table class="table is-bordered is-hoverable is-rounded is-centered">
-                <tr>
-                    <th>Host</th>
-                    <th>Host Name</th>
-                    <th>User</th>
-                    <th>Identity File</th>
-                    <th>Delete</th>
-                </tr>
-                <tbody id="table-body-content"></tbody>
-            </table>
+        <div class="panel">
+            <div class="tabs is-toggle is-toggle-rounded is-centered">
+                <ul>
+                    <li id="tab1">
+                        <a>
+                            <span>Show SSH File</span>
+                        </a>
+                    </li>
+                    <li id="tab2">
+                        <a>
+                            <span>Show Repositories</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div id="tab1-content" class="panel-block is-hidden is-desktop rows">
+                <div class="is-full">
+                    <button class="button is-info is-rounded is-responsive" id="load_ssh">Load SSH Existing
+                        Data</button>
+                </div>
+                <table class="table is-bordered is-hoverable is-rounded is-centered column">
+                    <tr>
+                        <th>Host</th>
+                        <th>Host Name</th>
+                        <th>User</th>
+                        <th>Identity File</th>
+                        <th>Delete</th>
+                    </tr>
+                    <tbody id="table-body-content-ssh"></tbody>
+                </table>
+            </div>
+            <div id="tab2-content" class="panel-block is-hidden rows">
+                <div class="container is-max-desktop box">
+                    <div class="field">
+                        <!-- TODO: Need more details for search in more platforms -->
+                        <label class="label" for="owner">Username</label>
+                        <input class="input" type="username" placeholder="Username" name="owner" id="check_user">
+                    </div>
+        
+                    <button class="button is-info is-rounded is-responsive is-small" id="check_repos">Check User</button>
+                </div>
+                <table class="table is-bordered is-hoverable is-rounded is-centered">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>SSH URL</th>
+                        <th>Clone URL</th>
+                    </tr>
+                    <tbody id="table-body-content-repo"></tbody>
+                </table>
+            </div>
         </div>
 
         <div class="container">
@@ -58,8 +94,12 @@
             </article>
         </div>
 
-
     </main>
+
+    <script src="../js/repositoryAPI.js"></script>
+    <script src="../js/tableContent.js"></script>
+    <script src="../js/addSSH.js"></script>
+    <script src="../js/tabRenderer.js"></script>
 
 </body>
 

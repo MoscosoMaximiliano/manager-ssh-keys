@@ -1,8 +1,11 @@
 name: Build and Release multi OS
 
 on: 
-  pull_request_review:
+  pull_request:
     types: [closed]
+    branches: 
+      - development
+      - main
 
 jobs:
   build:

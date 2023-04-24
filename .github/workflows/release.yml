@@ -13,14 +13,24 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
-        node-version: [18]
+        node-version: [14]
+        includes:
+          - os: macos-latest
+            node-version: 14
+            diminutive: mac
+          - os: windows-latest
+            node-version: 14
+            diminutive: win
+          - os: ubuntu-latest
+            node-version: 14
+            diminutive: linux
     
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 

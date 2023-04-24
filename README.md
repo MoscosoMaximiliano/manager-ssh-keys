@@ -17,6 +17,10 @@ At the moment we don't concreate nothing solid about the stylish, we are pointin
 - electromon
 - electron-builder
 
+## Code Formatter
+
+At the moment i'm using [StandardJS](https://standardjs.com/)
+
 ## How to navigate on files
 
 At the moment i'm not going to explain these because i'm learning about Electron and the structure files, so the current project can change drastically.
@@ -56,7 +60,9 @@ After this, we need to run the next command for create the executable
 ## Information
 
 [Get repository from Github](https://www.middlewareinventory.com/blog/github-list-all-repositories-using-rest-api/#Script_to_List_All_repositories_in_Github_using_REST_API)
+
 [Release Version on push](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
+
 [Dependabot](https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot)
 
 ## possibles steps on dev
@@ -68,7 +74,7 @@ After this, we need to run the next command for create the executable
 - Add SSH keys to SSH Agent ✅
 - Add SSH public key to the Github 
 - Create a Config File and Make Host Entries ✅
-- Cloning GitHub repositories using different accounts
+- Cloning GitHub repositories using different accounts ✅
 
 ## commands used for creation of the SSH Keys
 
@@ -80,13 +86,13 @@ After this, we need to run the next command for create the executable
 
 ## possibles next functionalities
 
-- Copy on clipboard the ssh public key after create
+- Copy on clipboard the ssh public key after create ⚒️
 - Link with github and add the ssh key to correct account (need researchment for see if this is possible)
 - Autocomplete the path link when try to clone the repo
   - Maybe a system who need to select a profile and with that can complete the SSH path when clone the repo
-- Delete a SSH Key
+- Delete a SSH Key ⚒️
 
 # DOING
 
-- Making the workflow for Github Actions for deploy a release on each platform
-- Creating a dependabot
+- Making the workflow for Github Actions for deploy a release on each platform ✅
+- Creating a dependabot ✅

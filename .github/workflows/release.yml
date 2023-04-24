@@ -1,31 +1,72 @@
 name: Build and Release multi OS
 
 on: 
-  push:
-    branches:
-      - develop
+  pull_request_review:
+    types: [approved]
 
 jobs:
-  MacOS_Build:
-    runs-on: macos-latest
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+        os-diminutive: [mac, win, linux]
+        node-version: [18]
     
     steps:
-      - name: Check Repository
+      - name: Checkout Code
         uses: actions/checkout@v2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          ref: electron
+          node-version: ${{ matrix.node-version }}
 
-      - name: Install Node.JS
-        uses: actions/setup-node@v1
+      - name: Install Depedencies and run build
+        run: |
+          npm ci
+          npm run package-${{ matrix.os-diminutive }}
+
+      - name: Archive Build Artifacts
+        uses: actions/upload-artifacts@v2
+        with:
+          name: build-${{ matrix.os-diminutive }}
+          path: dist/*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Download build artifacts
+        uses: actions/download-artifacts@v2
+        with:
+          name: build-*
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build on MacOS
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
-          ELECTRON: true
-          
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          draft: false
+          prerelease: false
 
-      
+      - name: Upload Release Assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outpuuts.upload_url }}
+          asset_path: ${{ env.ARTIFACTS_PATH }}
+          asset_name: ${{ env.ARTIFACTS_NAME }}
+          asset_content_type: application/zip

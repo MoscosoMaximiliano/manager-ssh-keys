@@ -38,17 +38,12 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: [mac, win, linux]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
 
       - name: Download build artifacts
         uses: actions/download-artifact@v2
-        with:
-          name: build-${{ matrix.os }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v2

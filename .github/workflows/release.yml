@@ -7,6 +7,12 @@ on:
       - development
       - main
 
+permissions:
+  id-token: write
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
   build:
     runs-on: ${{ matrix.os.name }}

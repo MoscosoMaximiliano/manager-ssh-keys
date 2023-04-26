@@ -10,14 +10,10 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    env:
-      diminutive: ${{ matrix.diminutive }}
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [{name: macos-latest, dim: mac}, {name: windows-latest, dim: win}, {name: ubuntu-latest, dim: linux}]
         node-version: [14]
-        dim: [mac, win, linux]
-        diminutive: ${{ matrix.dim[ indexof(matrix.os, item) ] }}
     
     steps:
       - name: Checkout Code
@@ -31,12 +27,12 @@ jobs:
       - name: Install Depedencies and run build
         run: |
           npm ci
-          npm run package-${{ matrix.diminutive }}
+          npm run package-${{ matrix.os.dim }}
 
       - name: Archive Build Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: build-${{ matrix.os }}
+          name: build-${{ matrix.os.name }}
           path: dist/*
 
   release:
